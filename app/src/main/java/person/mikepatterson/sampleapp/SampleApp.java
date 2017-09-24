@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 import okhttp3.OkHttpClient;
 import person.mikepatterson.sampleapp.data.api.ApiClient;
 import person.mikepatterson.sampleapp.data.api.ApiService;
+import person.mikepatterson.sampleapp.util.DbHelper;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,11 +33,18 @@ public class SampleApp extends Application {
     private ApiClient apiClient;
     private Handler mainThreadHandler;
 
-    // NOTE: this is a hacky way to do dependency injection. Dagger is a much better solution
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        DbHelper.init(this);
+    }
+
+    // NOTE: this is a hacky way to do dependency injection and lazy instantiation. Dagger is a much better solution
     // but Dagger involves significant overhead to put up
     //
     // Dependency Injection is important so that for important shared items in the app, there is only ONE instance
     // OkHttpClient falls into the important shared item category
+    // Realm isn't lazy injected cause DB is so central to the app and Realm does a lot of behind-the-scenes modifications
     public OkHttpClient getOkHttpClient() {
         // Lazy load the client, i.e. only instantiate it when you first need it
         if (okHttpClient == null) {

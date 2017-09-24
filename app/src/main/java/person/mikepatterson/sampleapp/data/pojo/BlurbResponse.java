@@ -4,5 +4,5 @@ import java.util.List;
 
 public class BlurbResponse {
 
-    public List<Blurb> blurbs;
+    public List<BlurbPojo> blurbs;
 }

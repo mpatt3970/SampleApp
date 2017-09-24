@@ -1,8 +1,5 @@
 package person.mikepatterson.sampleapp.data.api;
 
-import java.util.List;
-
-import person.mikepatterson.sampleapp.data.pojo.Blurb;
 import person.mikepatterson.sampleapp.data.pojo.BlurbResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
