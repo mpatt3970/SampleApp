@@ -12,7 +12,7 @@ public abstract class BaseProducer {
     private Handler mainThreadHandler;
     protected boolean canceled;
 
-    interface OnResultListener {
+    public interface OnResultListener {
         void onSuccess();
         void onFailure();
     }

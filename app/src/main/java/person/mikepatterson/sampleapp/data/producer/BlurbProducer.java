@@ -37,7 +37,7 @@ public class BlurbProducer extends BaseProducer {
 
                 // ideally we wouldnt reference Realm directly, instead referencing DbHelper
                 // idea being that we could change realm to another db solution with minimal files touched
-                
+
                 // we're in the background thread inside this callback so DB transactions can happen
                 Realm realm = Realm.getDefaultInstance();
                 // it's better to do a single transaction for all of the items returned instead of many smaller transactions

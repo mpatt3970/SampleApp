@@ -1,43 +1,43 @@
 package person.mikepatterson.sampleapp.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import person.mikepatterson.sampleapp.R;
 import person.mikepatterson.sampleapp.SampleApp;
-import person.mikepatterson.sampleapp.data.api.ApiClient;
-import person.mikepatterson.sampleapp.data.producer.BlurbProducer;
+import person.mikepatterson.sampleapp.presenter.BasePresenter;
+import person.mikepatterson.sampleapp.presenter.BlurbPresenter;
+import person.mikepatterson.sampleapp.viewmodel.BaseViewModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BasePresenter.PresenterListener {
     private static final String TAG = SampleApp.CLASS_TAG(MainActivity.class);
 
-    private ApiClient apiClient;
-    private Handler mainThreadHandler;
-    private BlurbProducer producer;
+    private BlurbPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SampleApp app = (SampleApp) getApplication();
-        apiClient = app.getApiClient();
-        mainThreadHandler = app.getMainThreadHandler();
-        producer = new BlurbProducer(apiClient, mainThreadHandler);
+        presenter = new BlurbPresenter((SampleApp) getApplication());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        producer.produce();
+        presenter.register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        producer.cancel();
+        presenter.unregister();
+    }
+
+    @Override
+    public void onUpdateUi(BaseViewModel viewModel) {
+
     }
 }
